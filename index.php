@@ -1,4 +1,15 @@
 <?php
+    /*
+    * Dollar Cost Average Bot for:
+    * BTC Markets PHP REST API v3
+    *
+    * @author birdman
+    * @version 0.1
+    * @link https://github.com/gbwx-net/btc_markets_dca
+    * 
+    * Further Reading - https://github.com/BTCMarkets/API
+    */
+
     ini_set('display_errors', 1);
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
