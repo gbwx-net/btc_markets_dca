@@ -35,19 +35,24 @@
 
     echo 'Last Price: '.$ticker['lastPrice'];
 
-    $accountBalance = (($exchange->getBalance('AUD'))/100000000);
+    $accountBalance = $exchange->getBalance('AUD');
 
     if($accountBalance > $tradeAmount)
     {
         $orderMarketID = 'BTC-AUD';
         $orderPrice = $ticker['bestAsk'];
-        $orderAmount = number_format(($tradeAmount / $orderPrice), 8);
-        $orderAmountString = (string)$orderAmount;
+        $orderAmount = number_format((0.0001 * $orderPrice), 8); // min amount 0.0001btc
+        //$orderAmount = number_format(($tradeAmount / $orderPrice), 8); // commented out for testing
         $orderType = 'Market';
         $orderSide = 'Bid';
-    }
 
-    $order = $exchange->createMarketOrder($orderMarketID, $orderPrice, $orderAmountString, $orderType, $orderSide);
+        $order = $exchange->createMarketOrder($orderMarketID, $orderPrice, $orderAmount, $orderType, $orderSide);
+    }
+    else
+    {
+        echo '$accountBalance < $tradeAmount - '.$accountBalance.' < '.$tradeAmount;
+    }
+    
 ?>
     </body>
 </html>
