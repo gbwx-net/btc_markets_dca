@@ -30,8 +30,6 @@
 
     $exchange = new BTCMarkets($apiKey, $apiSecret);
     $ticker = $exchange->getTicker($tradeSymbol);
-    //if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<pre>'.var_dump($exchange).'</pre>'; }
-    //if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<pre>'.var_dump($ticker).'</pre>'; }
 
     echo 'Last Price: '.$ticker['lastPrice'];
 
@@ -41,7 +39,7 @@
     {
         $orderMarketID = 'BTC-AUD';
         $orderPrice = $ticker['bestAsk'];
-        $orderAmount = number_format((0.0001 * $orderPrice), 8); // min amount 0.0001btc
+        $orderAmount = number_format(0.0001, 8); // min amount 0.0001btc
         //$orderAmount = number_format(($tradeAmount / $orderPrice), 8); // commented out for testing
         $orderType = 'Market';
         $orderSide = 'Bid';
