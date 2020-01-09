@@ -25,19 +25,15 @@
             if(!is_null($dataObj))
             {
                 $data = $dataObj;
-                if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo 'dataObj: <br><pre>'.var_dump($dataObj).'</pre></br>'; }
-                if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo 'data: <br><pre>'.var_dump($data).'</pre></br>'; }
             }
 
             $headers = $this->buildAuthHeaders($method, $path, $data);
-            if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<br>headers: <br><pre>'.var_dump($headers).'</pre><br>'; }
 
             $fullPath = $path;
             if(!is_null($queryString))
             {
                 $fullPath += '?'.$queryString;
             }
-            if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<br>fullPath: <br><pre>'.var_dump($fullPath).'</pre><br>'; }
 
             if($method == "GET") 
             {
@@ -45,12 +41,10 @@
             }
             else 
             {
-                $post = $queryString;
+                $post = $data;
             }
-            if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<br>post: <br><pre>'.var_dump($post).'</pre><br>'; }
 
             $url = self::API_URL . self::API_PATH . $path;
-            if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<br>url: <br><pre>'.var_dump($url).'</pre><br>'; }
 
             curl_reset($this->ch);
             curl_setopt($this->ch, CURLOPT_URL, $url);
@@ -67,10 +61,7 @@
             curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER , false);
             curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
 
-            if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<br>ch: <br><pre>'.var_dump($this->ch).'</pre><br>'; }
-
             $return = curl_exec($this->ch);
-            if(isset($_GET['debug']) && $_GET['debug'] =='true'){ echo '<br>return: <br><pre>'.var_dump($return).'</pre><br>'; }
 
             if(!$return) 
             {
@@ -94,7 +85,7 @@
             return $return;
         }
 
-        private function buildAuthheaders($method, $path, $data)
+        private function buildAuthHeaders($method, $path, $data)
         {
             $now = round(microtime(true) * 1000);
             $message = $method.$path.$now;
@@ -142,7 +133,7 @@
             $this->errorType = 'Platform';
             $this->errorCode = $return['error']['name'];
             $this->errorMessage = $return['error']['message'];
-            if($this->printErrors) echo "BitMex error ({$return['error']['name']}) : {$return['error']['message']}\n";
+            if($this->printErrors) echo "BTC Markets error ({$return['error']['name']}) : {$return['error']['message']}\n";
     
             return true;
         }
