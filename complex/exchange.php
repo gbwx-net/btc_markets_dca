@@ -28,7 +28,7 @@
     * @param string $apiKey    API Key
     * @param string $apiSecret API Secret
     */
-    public function __construct($apiKey = '', $apiSecret = '') {
+    public function __construct($apiKey, $apiSecret) {
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
         $this->curlInit();
@@ -121,6 +121,26 @@
         }
         return $candles;
     }
+
+    public function getBalance($marketId)
+    {
+        $data['method'] = 'GET';
+        $data['function'] = 'accounts/me/balances';
+        $data['params'] = array();
+
+        $balances = $this->authQuery($data);
+        echo '<pre>'.print_r($balances).'</pre>';
+        for($i=0; $i<(count($balances)); $i++)
+        {
+            if($balances[$i]['assetName'] == $marketId)
+            {
+               return $balances[$i]['available'];
+            }
+        }
+
+        return false;
+    }
+
     /*
     * Get Order
     *
