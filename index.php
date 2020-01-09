@@ -40,7 +40,7 @@
     echo "Encoded Message is:  " . $base64Msg . "<br>";
 
     // Create a stream
-    $opts = array(
+    $gets = array(
         'http'=>array(
               'method'=>"GET",
               'header'=>      "Accept: */*\r\n" .
@@ -53,8 +53,21 @@
         )
     );
 
-    $context = stream_context_create($opts);
-    if(isset($_GET['debug']) && $_GET['debug'] == 'true'){ echo '<pre>'.var_dump($opts).'</pre>'; }
+    $posts = array(
+        'http'=>array(
+              'method'=>"POST",
+              'header'=>      "Accept: */*\r\n" .
+                              "Accept-Charset: UTF-8\r\n" .
+                              "Content-Type: application/json\r\n" .
+                              "apikey: " . $public_key . "\r\n" .
+                              "timestamp: " . $milliseconds . "\r\n" .
+                              "User-Agent: btc markets php client\r\n" .
+                              "signature: " . $base64Msg . "\r\n"
+        )
+    );
+
+    $context = stream_context_create($gets);
+    if(isset($_GET['debug']) && $_GET['debug'] == 'true'){ echo '<pre>'.var_dump($gets).'</pre>'; }
     
     // Open the file using the HTTP headers set above
     $fileGet = file_get_contents('https://api.btcmarkets.net/account/balance', false, $context);
